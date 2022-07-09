@@ -10,7 +10,7 @@ void SoftRenderer::OnTick()
 {
 	if (!_AllInitialized)
 	{
-		// ÆÛÆ÷¸Õ½º Ä«¿îÅÍ ÃÊ±âÈ­.
+		// í¼í¬ë¨¼ìŠ¤ ì¹´ìš´í„° ì´ˆê¸°í™”.
 		if (!_PerformanceCheckInitialized)
 		{
 			if (_PerformanceInitFunc && _PerformanceMeasureFunc)
@@ -25,13 +25,13 @@ void SoftRenderer::OnTick()
 			}
 		}
 
-		// ½ºÅ©¸° Å©±â È®ÀÎ
+		// ìŠ¤í¬ë¦° í¬ê¸° í™•ì¸
 		if (_ScreenSize.HasZero())
 		{
 			return;
 		}
 
-		// ¼ÒÇÁÆ® ·»´õ·¯ ÃÊ±âÈ­.
+		// ì†Œí”„íŠ¸ ë Œë”ëŸ¬ ì´ˆê¸°í™”.
 		if (!_RendererInitialized)
 		{
 			_RendererInitialized = GetRenderer().Init(_ScreenSize);
@@ -42,7 +42,7 @@ void SoftRenderer::OnTick()
 			}
 		}
 
-		// °ÔÀÓ ¿£Áø ÃÊ±âÈ­
+		// ê²Œì„ ì—”ì§„ ì´ˆê¸°í™”
 		_GameEngineInitialized = GetGameEngine().IsInitialized();
 		if (!_GameEngineInitialized)
 		{
@@ -84,7 +84,7 @@ void SoftRenderer::OnTick()
 		{
 			PreUpdate();
 
-			// °ÔÀÓ ¿£Áø ±³Ã¼·Î ÇÔ¼ö ¸®¼Â ÁøÇà
+			// ê²Œì„ ì—”ì§„ êµì²´ë¡œ í•¨ìˆ˜ ë¦¬ì…‹ ì§„í–‰
 			if (!_AllInitialized)
 			{
 				GetSystemInput().UpdateSystemInput();
@@ -112,7 +112,7 @@ void SoftRenderer::OnResize(const ScreenPoint& InNewScreenSize)
 {
 	_ScreenSize = InNewScreenSize;
 
-	// Å©±â°¡ º¯°æµÇ¸é ·»´õ·¯¿Í ¿£Áø ÃÊ±âÈ­
+	// í¬ê¸°ê°€ ë³€ê²½ë˜ë©´ ë Œë”ëŸ¬ì™€ ì—”ì§„ ì´ˆê¸°í™”
 	if (_RendererInitialized)
 	{
 		GetRenderer().Init(InNewScreenSize);
@@ -136,17 +136,17 @@ void SoftRenderer::SetDefaultGameEngine(GameEngineType InGameEngineType)
 
 void SoftRenderer::PreUpdate()
 {
-	// ¼º´É ÃøÁ¤ ½ÃÀÛ.
+	// ì„±ëŠ¥ ì¸¡ì • ì‹œì‘.
 	_FrameTimeStamp = _PerformanceMeasureFunc();
 	if (_FrameCount == 0)
 	{
 		_StartTimeStamp = _FrameTimeStamp;
 	}
 
-	// ¹è°æ Áö¿ì±â.
+	// ë°°ê²½ ì§€ìš°ê¸°.
 	GetRenderer().Clear(_BackgroundColor);
 
-	// ¹öÆÛ ½Ã°¢È­
+	// ë²„í¼ ì‹œê°í™”
 	const SystemInputManager& sinput = GetSystemInput();
 
 	if (sinput.IsReleased(SystemInputButton::F1)) { _CurrentDrawMode = DrawMode::Normal; }
@@ -161,14 +161,14 @@ void SoftRenderer::PreUpdate()
 
 void SoftRenderer::PostUpdate()
 {
-	// ·»´õ¸µ ¸¶¹«¸®.
+	// ë Œë”ë§ ë§ˆë¬´ë¦¬.
 	GetRenderer().EndFrame();
 
-	// ÀÔ·Â »óÅÂ ¾÷µ¥ÀÌÆ®
+	// ì…ë ¥ ìƒíƒœ ì—…ë°ì´íŠ¸
 	GetGameEngine().GetInputManager().UpdateInput();
 	GetSystemInput().UpdateSystemInput();
 
-	// ¼º´É ÃøÁ¤ ¸¶¹«¸®.
+	// ì„±ëŠ¥ ì¸¡ì • ë§ˆë¬´ë¦¬.
 	_FrameCount++;
 	INT64 currentTimeStamp = _PerformanceMeasureFunc();
 	INT64 frameCycles = currentTimeStamp - _FrameTimeStamp;
